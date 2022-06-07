@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.certamen2molina.MainActivity">
+    <item
+        android:id="@+id/cientifico"
+        android:orderInCategory="100"
+        android:title="Cientifico"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/planta"
+        android:orderInCategory="100"
+        android:title="Planta"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/recoleccion"
+        android:orderInCategory="100"
+        android:title="Recolección"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Lista"
+        android:orderInCategory="100"
+        android:title="Listado"
+        app:showAsAction="always" />
+</menu>

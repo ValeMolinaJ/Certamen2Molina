@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondop4"
+    tools:context=".MainActivityPlanta">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Datos plantas"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.009" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FOTOGRAFIA DE LA PLANTA"
+        android:textColor="#131313"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.413" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DESCRIPCIÓN"
+        android:textColor="#131313"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.267" />
+
+    <ImageView
+        android:id="@+id/imgPlant"
+        android:layout_width="157dp"
+        android:layout_height="147dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.165"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551"
+        app:srcCompat="@drawable/fondo6" />
+
+    <LinearLayout
+        android:layout_width="315dp"
+        android:layout_height="185dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.886">
+
+        <Button
+            android:id="@+id/btnGuardarP"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:backgroundTint="#F4F1BB"
+            android:onClick="Guardar"
+            android:text="guardar"
+            android:textColor="#020202"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnEditarP"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:backgroundTint="#F4F1BB"
+            android:onClick="Editar"
+            android:text="editar"
+            android:textColor="#020202"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnEliminarP"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:backgroundTint="#F4F1BB"
+            android:onClick="Eliminar"
+            android:text="Eliminar"
+            android:textColor="#020202"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnBuscarP"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:backgroundTint="#F4F1BB"
+            android:onClick="Buscar"
+            android:text="Buscar"
+            android:textColor="#020202"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextTextMultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnLimpiar"
+        android:layout_width="287dp"
+        android:layout_height="41dp"
+        android:backgroundTint="#0014C38E"
+        android:onClick="LimpiarBtn"
+        android:text="Limpiar"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.548"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.989" />
+
+    <Button
+        android:id="@+id/btnAbrirCamara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#F4F1BB"
+        android:text="Abrir cámara"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.759"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.606" />
+
+    <EditText
+        android:id="@+id/edDescP"
+        android:layout_width="302dp"
+        android:layout_height="73dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32" />
+
+    <LinearLayout
+        android:layout_width="312dp"
+        android:layout_height="146dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.075">
+
+        <EditText
+            android:id="@+id/edCodPlanta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="CODIGO PLANTA"
+            android:inputType="number"
+            android:textColorHint="#000000" />
+
+        <EditText
+            android:id="@+id/edNomPlanta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="NOMBRE PLANTA"
+            android:inputType="textPersonName"
+            android:textColorHint="#000000" />
+
+        <EditText
+            android:id="@+id/edNomCientP"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:ems="10"
+            android:hint="NOMBRE CIENTIFICO DE LA PLANTA"
+            android:inputType="textPersonName"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textSize="16sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
