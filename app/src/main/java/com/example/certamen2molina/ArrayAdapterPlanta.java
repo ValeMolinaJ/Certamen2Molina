@@ -39,7 +39,7 @@ public class ArrayAdapterPlanta extends ArrayAdapter<classPlanta> {
         classPlanta item = getItem(position);
         codP.setText("Codigo: "+String.valueOf(item.getCodPlanta()));
         nombreP.setText("Nombre: "+item.getNombrePlanta());
-        nomPc.setText("Cientifico: "+item.getNomCientificoP());
+        nomPc.setText("Nombre cientifico: "+item.getNomCientificoP());
         foto = BitmapFactory.decodeByteArray(item.getImgPlanta(), 0, item.getImgPlanta().length);
         imagen.setImageBitmap(foto);
         desc.setText("Descripcion: "+item.getDescripcion());

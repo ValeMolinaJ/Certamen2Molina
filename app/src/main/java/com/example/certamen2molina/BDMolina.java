@@ -181,7 +181,7 @@ public class BDMolina extends SQLiteOpenHelper {
             try {
                 String[] args = new String[]{String.valueOf(codPlanta)};
                 //ACTUALIZA REGISTRO DE LA TABLA CON LOS VALORES
-                db.update("plantasMolina", valores, "CODP=?", args);
+                db.update("plantasMolina", valores, "codPlanta=?", args);
                 db.close();
             } catch (Exception e) {
                 db.close();
@@ -373,6 +373,25 @@ public class BDMolina extends SQLiteOpenHelper {
         } else
             return null;
     }
+    public List<classRecoleccion> listarRecoleccion() {
+        SQLiteDatabase bdm = getReadableDatabase();
+        if (bdm != null) {
+            List<classRecoleccion> lista_Rec = new ArrayList<classRecoleccion>();
+            Cursor c = bdm.rawQuery("SELECT * FROM recoleccionMolina", null);
+            if (c.moveToFirst()) {
+                do {
+                    classRecoleccion objRec = new classRecoleccion(c.getInt(0), c.getString(1), c.getInt(2), c.getString(3), c.getString(4), c.getBlob(5), c.getFloat(6), c.getFloat(7));
+                    lista_Rec.add(objRec);
+                } while (c.moveToNext());
+                bdm.close();
+                c.close();
+                return lista_Rec;
+            } else
+                return null;
+        } else
+            return null;
+    }
+
     public List<classRecoleccion> listarRecoleccionRut(String rut) {
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {

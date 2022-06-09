@@ -36,6 +36,7 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
     Bitmap bmpReco;
     List<classPlanta> lista_codigos;
     List<classCientifico> lista_Rut;
+    List<classRecoleccion> listaReco;
     String obRut;
     Integer obCod;
     final static int cons = 0;
@@ -57,6 +58,9 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
         spCodC = (Spinner)findViewById(R.id.spCodPlanta);
         LlenarSpinnerRut();
         LlenarSpinnerCod();
+        lista_codigos = BDM.listarclassPlanta();
+        listaReco = BDM.listarRecoleccion();
+        lista_Rut = BDM.listarclassCientificos();
         spRutC.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -132,33 +136,44 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
         }
     }
     public void Guardar(View view){
-        if(!edIdentificador.getText().toString().equals("") && !edRegistro.getText().toString().equals("") &&
-        !edComentario.getText().toString().equals("")){
-        int obtIdentificador, obtCodPlantita;
-        String obtRegistro, obtComentario, obtRutC;
-        float obtLongitud, obtLatitud;
-        Boolean siGuarda;
-        obtIdentificador=Integer.parseInt(edIdentificador.getText().toString());
-        obtRegistro=edRegistro.getText().toString();
-        obtComentario=edComentario.getText().toString();
-        obtLongitud=Float.parseFloat(edLong.getText().toString());
-        obtLatitud=Float.parseFloat((edLat.getText().toString()));
-            ByteArrayOutputStream stream= new ByteArrayOutputStream();
-            bmpReco.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte [] byteArray = stream.toByteArray();
-            siGuarda=BDM.insertarDatosR(obtIdentificador,obtRegistro,obCod,obRut,obtComentario,byteArray,obtLongitud,obtLatitud);
-            if (siGuarda == true)
-            {
-                Toast.makeText(this, "Datos ingresados correctamente", Toast.LENGTH_LONG).show();
+        try {
+            if (!edIdentificador.getText().toString().equals("") && !edRegistro.getText().toString().equals("") &&
+                    !edComentario.getText().toString().equals("")) {
+                int obtIdentificador, obtIdent;
+                String obtRegistro, obtComentario, obtRutC;
+                float obtLongitud, obtLatitud;
+                Boolean siGuarda;
+                Boolean identificadorDuplicado = false;
+                obtIdentificador = Integer.parseInt(edIdentificador.getText().toString());
+                obtIdent = Integer.parseInt(edIdentificador.getText().toString());
+                obtRegistro = edRegistro.getText().toString();
+                obtComentario = edComentario.getText().toString();
+                obtLongitud = Float.parseFloat(edLong.getText().toString());
+                obtLatitud = Float.parseFloat((edLat.getText().toString()));
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmpReco.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                for (int i = 0; i < listaReco.size(); i++) {
+                    if (obtIdent == (listaReco.get(i).getIdentificador())) {
+                        identificadorDuplicado = true;
+                    }
+                }
+                if (!identificadorDuplicado) {
+                    siGuarda = BDM.insertarDatosR(obtIdentificador, obtRegistro, obCod, obRut, obtComentario, byteArray, obtLongitud, obtLatitud);
+                    if (siGuarda == true) {
+                        Toast.makeText(this, "Datos ingresados correctamente", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "No se han ingresado los datos", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(this, "El identificador ya ha sido ingresado...", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, "Faltan datos", Toast.LENGTH_LONG).show();
             }
-            else
-            {
-                Toast.makeText(this, "No se han ingresado los datos", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            Toast.makeText(this, "Faltan datos", Toast.LENGTH_LONG).show();
+        } catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
-        Limpiar();
     }
     public void Editar(View view){
         if (!edIdentificador.getText().toString().equals("") && !edRegistro.getText().toString().equals("") &&

@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 /* Valentina Molina Jara
     19.987.243-5 */
@@ -28,6 +29,7 @@ ImageView imgPlant;
 BDMolina BDM;
 Intent intentPlant;
 Bitmap bmpPlant;
+List<classPlanta> listarclassPlanta;
 final static int cons=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ final static int cons=0;
         btnAbrirCamara=(Button)findViewById(R.id.btnAbrirCamara);
         btnAbrirCamara.setOnLongClickListener(this);
         BDM =new BDMolina(this);
+        listarclassPlanta = BDM.listarclassPlanta();
     }
     @Override
     public boolean onLongClick(View view) {
@@ -69,32 +72,43 @@ final static int cons=0;
         }
     }
     public void Guardar(View v){
-        if (!edCodPlanta.getText().toString().equals("") && !edNomPlanta.getText().toString().equals("") &&
-                !edNomCientP.getText().toString().equals("") && !edDescP.getText().toString().equals("")){
-            int obtCodPlanta;
-            String obtNomPlanta;
-            String obtnNomCientP;
-            String obtDesc;
-            boolean siGuarda;
-            obtCodPlanta=Integer.parseInt(edCodPlanta.getText().toString());
-            obtNomPlanta=edNomPlanta.getText().toString();
-            obtnNomCientP=edNomCientP.getText().toString();
-            obtDesc=edDescP.getText().toString();
-            ByteArrayOutputStream stream= new ByteArrayOutputStream();
-            bmpPlant.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte [] byteArray = stream.toByteArray();
-            siGuarda=BDM.insertarDatosP(obtCodPlanta,obtNomPlanta,obtnNomCientP,byteArray,obtDesc);
-            if (siGuarda == true)
-            {
-                Toast.makeText(this, "Datos ingresados correctamente", Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(this, "No se han ingresado los datos", Toast.LENGTH_LONG).show();
-            }
-        }else {
-            Toast.makeText(this, "Faltan datos", Toast.LENGTH_LONG).show();
-        } Limpiar();
+        try{
+            if (!edCodPlanta.getText().toString().equals("") && !edNomPlanta.getText().toString().equals("") &&
+                    !edNomCientP.getText().toString().equals("") && !edDescP.getText().toString().equals("")){
+                int obtCodPlanta;
+                String obtNomPlanta;
+                String obtnNomCientP;
+                String obtDesc;
+                boolean siGuarda;
+                boolean codDuplicado = false;
+                obtCodPlanta=Integer.parseInt(edCodPlanta.getText().toString());
+                obtNomPlanta=edNomPlanta.getText().toString();
+                obtnNomCientP=edNomCientP.getText().toString();
+                obtDesc=edDescP.getText().toString();
+                ByteArrayOutputStream stream= new ByteArrayOutputStream();
+                bmpPlant.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte [] byteArray = stream.toByteArray();
+                siGuarda=BDM.insertarDatosP(obtCodPlanta,obtNomPlanta,obtnNomCientP,byteArray,obtDesc);
+                for (int i = 0; i < listarclassPlanta.size(); i++){
+                    if(obtCodPlanta == (listarclassPlanta.get(i).getCodPlanta())){
+                        codDuplicado = true;
+                    }
+                }
+                if(!codDuplicado) {
+                    if (siGuarda == true) {
+                        Toast.makeText(this, "Datos ingresados correctamente", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "No se han ingresado los datos", Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    Toast.makeText(this, "El código de la planta ya ha sido ingresado...", Toast.LENGTH_LONG).show();
+                }
+            }else {
+                Toast.makeText(this, "Faltan datos", Toast.LENGTH_LONG).show();
+            } Limpiar();
+        }catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
     public void Editar(View v){
         if (!edCodPlanta.getText().toString().equals("") && !edNomPlanta.getText().toString().equals("") &&
@@ -132,31 +146,43 @@ final static int cons=0;
     public void Eliminar(View v) {
         if (!edCodPlanta.getText().toString().equals("")) {
             int obtCodPlanta;
+            int codP =0;
+            codP = Integer.parseInt(edCodPlanta.getText().toString());
+            boolean validate = false;
             try {
-                obtCodPlanta = Integer.parseInt(edCodPlanta.getText().toString());
-                new AlertDialog.Builder(MainActivityPlanta.this)
-                        .setTitle("Eliminación de planta.")
-                        .setMessage("¿Desea eliminar la planta?")
-                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                                    @TargetApi(11)
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Boolean siElimino;
-                                        siElimino = BDM.eliminarDatosP(obtCodPlanta);
-                                        if (siElimino) {
-                                            Toast.makeText(MainActivityPlanta.this, "¡Se han eliminado los datos!", Toast.LENGTH_SHORT).show();
-                                            dialog.cancel();
-                                            Limpiar();
-                                        }
+                for (int i = 0; i < listarclassPlanta.size(); i++){
+                    if(codP == (listarclassPlanta.get(i).getCodPlanta())){
+                        validate = true;
+                    }
+                }
+                if(!validate) {
+                    obtCodPlanta = Integer.parseInt(edCodPlanta.getText().toString());
+                    new AlertDialog.Builder(MainActivityPlanta.this)
+                            .setTitle("Eliminación de planta.")
+                            .setMessage("¿Desea eliminar la planta?")
+                            .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                                @TargetApi(11)
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Boolean siElimino;
+                                    siElimino = BDM.eliminarDatosP(obtCodPlanta);
+                                    if (siElimino) {
+                                        Toast.makeText(MainActivityPlanta.this, "¡Se han eliminado los datos!", Toast.LENGTH_SHORT).show();
+                                        dialog.cancel();
+                                        Limpiar();
                                     }
-                                })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @TargetApi(11)
-                            public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(MainActivityPlanta.this, "No se ha realizado la eliminación", Toast.LENGTH_SHORT).show();
-                                dialog.cancel();
-                            }
-                        }).show();
-
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @TargetApi(11)
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Toast.makeText(MainActivityPlanta.this, "No se ha realizado la eliminación", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                            }).show();
+                }
+                else{
+                    Toast.makeText(MainActivityPlanta.this, "No se puede eliminar la planta. Pertenece a una recolección", Toast.LENGTH_SHORT).show();
+                }
             }catch (Exception e){
                 Toast.makeText(this, "Error al Eliminar los datos", Toast.LENGTH_LONG).show();
             }
