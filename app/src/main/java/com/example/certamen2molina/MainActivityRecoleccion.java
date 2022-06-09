@@ -122,18 +122,18 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
         }
     }
     public void LlenarSpinnerRut() {
-       ArrayList<String> rutC = new ArrayList<String>();
-        lista_Rut = new ArrayList<classCientifico>();
-          if (lista_Rut != null) {
-             lista_Rut = BDM.listarclassCientificos();
-             for (int i = 0; i < lista_Rut.size(); i++) {
-                rutC.add(lista_Rut.get(i).getRut());
-            }
-            spRutC.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, rutC));
+            ArrayList<String> rutC = new ArrayList<String>();
+            lista_Rut = new ArrayList<classCientifico>();
+            if (lista_Rut != null) {
+                lista_Rut = BDM.listarclassCientificos();
+                for (int i = 0; i < lista_Rut.size(); i++) {
+                    rutC.add(lista_Rut.get(i).getRut());
+                }
+                spRutC.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, rutC));
 
-        } else {
-            Toast.makeText(this, "No hay datos", Toast.LENGTH_LONG).show();
-        }
+            } else {
+                Toast.makeText(this, "No hay datos", Toast.LENGTH_LONG).show();
+            }
     }
     public void Guardar(View view){
         try {

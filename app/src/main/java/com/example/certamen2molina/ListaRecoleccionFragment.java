@@ -1,8 +1,12 @@
 package com.example.certamen2molina;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,18 +100,29 @@ public class ListaRecoleccionFragment extends Fragment {
             sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    rutC = ((classCientifico) adapterView.getSelectedItem()).getRut();
-                    lista_rec = BDM.listarRecoleccionRut(rutC);
-                    adapt = new ArrayAdapterRecoleccion(getActivity(), 0, lista_rec);
-                    listV.setAdapter(adapt);
-                }
+                    try {
+                        rutC = ((classCientifico) adapterView.getSelectedItem()).getRut();
+                        lista_rec = BDM.listarRecoleccionRut(rutC);
+                        adapt = new ArrayAdapterRecoleccion(getActivity(), 0, lista_rec);
+                        listV.setAdapter(adapt);
+                    }catch (Exception e){
+                        new AlertDialog.Builder(getContext()).setTitle("Error...")
+                                .setMessage("Este cientifico no posee ninguna recolección")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(getContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        dialog.cancel();
+                                    }
 
+                                }).show();
+                    }
+                }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
 
                 }
             });
-
         } else {
             sp.setAdapter(adapterEmpty);
         }
