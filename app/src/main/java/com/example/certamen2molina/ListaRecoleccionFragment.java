@@ -1,5 +1,6 @@
 package com.example.certamen2molina;
 
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +23,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/* Valentina Molina Jara
+    19.987.243-5 */
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ListaRecoleccionFragment#newInstance} factory method to
@@ -107,14 +109,11 @@ public class ListaRecoleccionFragment extends Fragment {
                         listV.setAdapter(adapt);
                     }catch (Exception e){
                         new AlertDialog.Builder(getContext()).setTitle("Error...")
-                                .setMessage("Este cientifico no posee ninguna recolección")
+                                .setMessage("Este cientifico no posee ninguna recolección, seleccione otro")
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        Intent intent = new Intent(getContext(), MainActivity.class);
-                                        startActivity(intent);
                                         dialog.cancel();
                                     }
-
                                 }).show();
                     }
                 }

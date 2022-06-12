@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -56,11 +57,11 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
         BDM = new BDMolina(this);
         spRutC = (Spinner) findViewById(R.id.spRutC);
         spCodC = (Spinner)findViewById(R.id.spCodPlanta);
-        LlenarSpinnerRut();
-        LlenarSpinnerCod();
         lista_codigos = BDM.listarclassPlanta();
         listaReco = BDM.listarRecoleccion();
         lista_Rut = BDM.listarclassCientificos();
+        LlenarSpinnerRut();
+        LlenarSpinnerCod();
         spRutC.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -122,18 +123,19 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
         }
     }
     public void LlenarSpinnerRut() {
-            ArrayList<String> rutC = new ArrayList<String>();
-            lista_Rut = new ArrayList<classCientifico>();
-            if (lista_Rut != null) {
-                lista_Rut = BDM.listarclassCientificos();
-                for (int i = 0; i < lista_Rut.size(); i++) {
-                    rutC.add(lista_Rut.get(i).getRut());
-                }
-                spRutC.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, rutC));
-
-            } else {
-                Toast.makeText(this, "No hay datos", Toast.LENGTH_LONG).show();
+        ArrayList<String> rutC = new ArrayList<String>();
+        lista_Rut = new ArrayList<classCientifico>();
+        lista_Rut = BDM.listarclassCientificos();
+        if (lista_Rut != null) {
+            lista_Rut = BDM.listarclassCientificos();
+            for (int i = 0; i < lista_Rut.size(); i++) {
+                rutC.add(lista_Rut.get(i).getRut());
             }
+            spRutC.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, rutC));
+
+        } else {
+            Toast.makeText(this, "No hay datos", Toast.LENGTH_LONG).show();
+        }
     }
     public void Guardar(View view){
         try {
@@ -145,7 +147,7 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
                 Boolean siGuarda;
                 Boolean identificadorDuplicado = false;
                 obtIdentificador = Integer.parseInt(edIdentificador.getText().toString());
-                obtIdent = Integer.parseInt(edIdentificador.getText().toString());
+                //obtIdent = Integer.parseInt(edIdentificador.getText().toString());
                 obtRegistro = edRegistro.getText().toString();
                 obtComentario = edComentario.getText().toString();
                 obtLongitud = Float.parseFloat(edLong.getText().toString());
@@ -153,9 +155,11 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bmpReco.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
-                for (int i = 0; i < listaReco.size(); i++) {
-                    if (obtIdent == (listaReco.get(i).getIdentificador())) {
-                        identificadorDuplicado = true;
+                if(listaReco != null){
+                    for (int i = 0; i < listaReco.size(); i++) {
+                        if (obtIdentificador == (listaReco.get(i).getIdentificador())) {
+                            identificadorDuplicado = true;
+                        }
                     }
                 }
                 if (!identificadorDuplicado) {
@@ -170,7 +174,7 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
                 }
             } else {
                 Toast.makeText(this, "Faltan datos", Toast.LENGTH_LONG).show();
-            }
+            } Limpiar();
         } catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -181,7 +185,6 @@ public class MainActivityRecoleccion extends AppCompatActivity implements View.O
             int obtIdent;
             String obtFechaReg, obtComentario;
             Float obtLong, obtLat;
-
             boolean siEdita;
             try {
                 obtIdent=Integer.parseInt(edIdentificador.getText().toString());

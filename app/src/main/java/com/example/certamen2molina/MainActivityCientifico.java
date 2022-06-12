@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /* Valentina Molina Jara
@@ -43,7 +44,6 @@ List<classCientifico> listarCientifico;
         listarCientifico = BDM.listarclassCientificos();
     }
     public void Guardar(View v) {
-        try{
             if (!rut.getText().toString().equals("") && !nombres.getText().toString().equals("") &&
                     !apellidos.getText().toString().equals("") && (Fem.isChecked() || (Masc.isChecked()))) {
                 String obtRut;
@@ -60,27 +60,16 @@ List<classCientifico> listarCientifico;
                 } else if (Masc.isChecked()) {
                     sexo = "Masculino";
                 }
-                for (int i = 0; i < listarCientifico.size(); i++){
-                    if(obtRut.equals(listarCientifico.get(i).getRut())){
-                        rutDuplicado = true;
-                    }
-                }
-                if(!rutDuplicado) {
                     siGuarda = BDM.insertarDatosC(obtRut, obtNombres, obtApellidos, sexo);
                     if (siGuarda == true) {
                         Toast.makeText(this, "Datos ingresados correctamente", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(this, "No se han ingresado los datos", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(this, "No se han ingresado los datos", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Este rut ya se ha registrado...", Toast.LENGTH_LONG).show();
                     }
-                }else {
-                    Toast.makeText(this, "Este rut ya se ha registrado...", Toast.LENGTH_LONG).show();
-                }
             }else {
                 Toast.makeText(this, "Faltan datos", Toast.LENGTH_LONG).show();
             } Limpiar();
-        }catch (Exception e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
     }
     public void Editar(View v) {
         if (!rut.getText().toString().equals("") && !nombres.getText().toString().equals("") &&
@@ -116,9 +105,12 @@ List<classCientifico> listarCientifico;
             boolean validate = false;
             try {
                 obtRut = rut.getText().toString();
-                for (int i = 0; i < listarRecoleccion.size(); i++){
-                    if(obtRut.equals(listarRecoleccion.get(i).getRutCientifico())){
-                        validate = true;
+
+                if(listarRecoleccion != null){
+                    for (int i = 0; i < listarRecoleccion.size(); i++) {
+                        if (obtRut.equals(listarRecoleccion.get(i).getRutCientifico())) {
+                            validate = true;
+                        }
                     }
                 }
                 if(!validate) {

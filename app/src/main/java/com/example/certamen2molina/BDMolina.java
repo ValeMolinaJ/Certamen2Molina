@@ -30,11 +30,11 @@ public class BDMolina extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE cientificosMolina" +
-                "(rut TEXT  PRIMARY KEY, nombres TEXT, apellidos TEXT, sexo TEXT)");
+                "(rut TEXT  PRIMARY KEY NOT NULL, nombres TEXT, apellidos TEXT, sexo TEXT)");
         sqLiteDatabase.execSQL("CREATE TABLE plantasMolina" +
-                "(codPlanta INT PRIMARY KEY, nombrePlanta TEXT, nomCientificoP TEXT, imgPlanta BLOB, descripcion TEXT)");
+                "(codPlanta INT PRIMARY KEY NOT NULL, nombrePlanta TEXT, nomCientificoP TEXT, imgPlanta BLOB, descripcion TEXT)");
         sqLiteDatabase.execSQL("CREATE TABLE recoleccionMolina" +
-                "(identificador INT PRIMARY KEY, fechaReg TEXT, codPlantita INT, rutCientifico TEXT ," +
+                "(identificador INT PRIMARY KEY NOT NULL, fechaReg TEXT, codPlantita INT, rutCientifico TEXT ," +
                 "comentario TEXT, fotoLugar BLOB, longitud REAL, latitud REAL, FOREIGN KEY (codPlantita) REFERENCES plantasMolina (codPlanta)," +
                 "FOREIGN KEY (rutCientifico) REFERENCES cientificosMolina (rut))");
     }
@@ -47,25 +47,40 @@ public class BDMolina extends SQLiteOpenHelper {
     /*----------------------CIENTIFICOS------------------------------*/
     //Método para crear un registro.
     public boolean insertarDatosC(String rut, String nombres, String apellidos, String sexo) {
-        boolean sw1 = true;
-        //Abre la BD en modo escritura.
-        SQLiteDatabase db = getWritableDatabase();
-        //Verifica si la bd existe.
-        if (db != null) {
-            ContentValues valores = new ContentValues();
-            valores.put("rut", rut);
-            valores.put("nombres", nombres);
-            valores.put("apellidos", apellidos);
-            valores.put("sexo", sexo);
-            try {
-                db.insert("cientificosMolina", "", valores);
+//        boolean sw1 = true;
+//        //Abre la BD en modo escritura.
+//        SQLiteDatabase db = getWritableDatabase();
+//        //Verifica si la bd existe.
+//        if (db != null) {
+//            ContentValues valores = new ContentValues();
+//            valores.put("rut", rut);
+//            valores.put("nombres", nombres);
+//            valores.put("apellidos", apellidos);
+//            valores.put("sexo", sexo);
+//            try {
+//                db.insert("cientificosMolina", "", valores);
+//                db.close();
+//            } catch (Exception e) {
+//                db.close();
+//                sw1 = false;
+//            }
+//        } else {
+//            onCreate(db);
+//        }
+//        return sw1;
+        boolean sw1=true;
+        SQLiteDatabase db = getWritableDatabase(); //ABRE BD EN MODO ESCRITURA
+        if(db != null){
+            try{
+                db.execSQL("INSERT INTO cientificosMolina VALUES('" + rut + "','" + nombres + "','" + apellidos + "','" + sexo + "')");//INSERTA REGISTROS
                 db.close();
-            } catch (Exception e) {
+            }catch(Exception e){
                 db.close();
-                sw1 = false;
+                sw1=false;
             }
-        } else {
-            onCreate(db);
+        }
+        else{
+            sw1=false;
         }
         return sw1;
     }
@@ -159,10 +174,7 @@ public class BDMolina extends SQLiteOpenHelper {
                 db.close();
                 sw1 = false;
             }
-        } else {
-            onCreate(db);
-        }
-        return sw1;
+        } return  sw1;
     }
 
     //Método para editar datos de la planta.
@@ -335,6 +347,45 @@ public class BDMolina extends SQLiteOpenHelper {
             return null;
         }
     }
+    //Método que lista los cientificos.
+    public List<classCientifico> listarclassCientificos() {
+        SQLiteDatabase bdm = getReadableDatabase();
+        if (bdm != null) {
+            List<classCientifico> lista_Rut = new ArrayList<classCientifico>();
+            Cursor c = bdm.rawQuery("SELECT * FROM cientificosMolina", null);
+            if (c.moveToFirst()) {
+                do {
+                    classCientifico objRut = new classCientifico(c.getString(0), c.getString(1), c.getString(2), c.getString(3));
+                    lista_Rut.add(objRut);
+                } while (c.moveToNext());
+                bdm.close();
+                c.close();
+                return lista_Rut;
+            } else
+                return null;
+        } else
+            return null;
+    }
+    public List<classRecoleccion> listarRecoleccionRut(String rut) {
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+            List<classRecoleccion> listarecolec = new ArrayList<classRecoleccion>();
+            Cursor c = db.rawQuery("SELECT * FROM recoleccionMolina WHERE rutCientifico ='" + rut + "'", null);
+            if (c.moveToFirst()) {
+                do {
+                    classRecoleccion r = new classRecoleccion(c.getInt(0), c.getString(1), c.getInt(2), c.getString(3), c.getString(4), c.getBlob(5), c.getFloat(6), c.getFloat(7));
+                    listarecolec.add(r);
+                } while (c.moveToNext());
+                db.close();
+                c.close();
+                return listarecolec;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
     //Método que lista los códigos.
     public List<classPlanta> listarclassPlanta() {
         SQLiteDatabase bdm = getReadableDatabase();
@@ -349,25 +400,6 @@ public class BDMolina extends SQLiteOpenHelper {
                 bdm.close();
                 c.close();
                 return lista_codigos;
-            } else
-                return null;
-        } else
-            return null;
-    }
-    //Método que lista los rut de cientificos.
-    public List<classCientifico> listarclassCientificos() {
-        SQLiteDatabase bdm = getReadableDatabase();
-        if (bdm != null) {
-            List<classCientifico> lista_Rut = new ArrayList<classCientifico>();
-            Cursor c = bdm.rawQuery("SELECT * FROM cientificosMolina", null);
-            if (c.moveToFirst()) {
-                do {
-                    classCientifico objRut = new classCientifico(c.getString(0), c.getString(1), c.getString(2), c.getString(3));
-                    lista_Rut.add(objRut);
-                } while (c.moveToNext());
-                bdm.close();
-                c.close();
-                return lista_Rut;
             } else
                 return null;
         } else
@@ -390,26 +422,5 @@ public class BDMolina extends SQLiteOpenHelper {
                 return null;
         } else
             return null;
-    }
-
-    public List<classRecoleccion> listarRecoleccionRut(String rut) {
-        SQLiteDatabase db = getReadableDatabase();
-        if (db != null) {
-            List<classRecoleccion> listarecolec = new ArrayList<classRecoleccion>();
-            Cursor c = db.rawQuery("SELECT * FROM recoleccionMolina WHERE rutCientifico='" + rut + "'", null);
-            if (c.moveToFirst()) {
-                do {
-                    classRecoleccion r = new classRecoleccion(c.getInt(0), c.getString(1), c.getInt(2), c.getString(3), c.getString(4), c.getBlob(5), c.getFloat(6), c.getFloat(7));
-                    listarecolec.add(r);
-                } while (c.moveToNext());
-                db.close();
-                c.close();
-                return listarecolec;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
     }
 }

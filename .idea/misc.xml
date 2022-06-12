@@ -3,11 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2/Certamen2Molina/app/src/main/res/layout/activity_main_cientifico.xml" value="0.2234375" />
+        <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2/Certamen2Molina/app/src/main/res/layout/activity_main_planta.xml" value="0.2234375" />
+        <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2/Certamen2Molina/app/src/main/res/layout/activity_main_recoleccion.xml" value="0.2234375" />
+        <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2/Certamen2Molina/app/src/main/res/layout/fragment_lista_recoleccion.xml" value="0.2234375" />
+        <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2/Certamen2Molina/app/src/main/res/layout/fragment_second.xml" value="0.2234375" />
+        <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2/Certamen2Molina/app/src/main/res/menu/menu_main.xml" value="0.2234375" />
         <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2Molina/app/src/main/res/layout/activity_main.xml" value="0.2234375" />
         <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2Molina/app/src/main/res/layout/content_main.xml" value="0.2234375" />
         <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2Molina/app/src/main/res/layout/fragment_first.xml" value="0.2234375" />
         <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2Molina/app/src/main/res/layout/fragment_second.xml" value="0.2234375" />
         <entry key="..\:/Ing. Computacion e informatica/Tercer semestre/Taller Nuevas Tecnologias/Certamen2Molina/app/src/main/res/menu/menu_main.xml" value="0.2234375" />
+        <entry key="..\:/Taller Nuevas Tecnologias/Certamen2/Certamen2Molina/app/src/main/res/layout/activity_main_planta.xml" value="0.12552083333333333" />
+        <entry key="..\:/Taller Nuevas Tecnologias/Certamen2/Certamen2Molina/app/src/main/res/layout/activity_main_recoleccion.xml" value="0.27291666666666664" />
         <entry key="..\:/Taller Nuevas Tecnologias/Certamen2Molina/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Taller Nuevas Tecnologias/Certamen2Molina/app/src/main/res/layout/activity_main2.xml" value="0.264" />
         <entry key="..\:/Taller Nuevas Tecnologias/Certamen2Molina/app/src/main/res/layout/activity_main_cientifico.xml" value="0.264" />

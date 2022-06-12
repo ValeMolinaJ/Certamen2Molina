@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.SQLException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -88,13 +89,15 @@ final static int cons=0;
                 ByteArrayOutputStream stream= new ByteArrayOutputStream();
                 bmpPlant.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte [] byteArray = stream.toByteArray();
-                siGuarda=BDM.insertarDatosP(obtCodPlanta,obtNomPlanta,obtnNomCientP,byteArray,obtDesc);
-                for (int i = 0; i < listarclassPlanta.size(); i++){
-                    if(obtCodPlanta == (listarclassPlanta.get(i).getCodPlanta())){
-                        codDuplicado = true;
+                if (listarclassPlanta != null) {
+                    for (int i = 0; i < listarclassPlanta.size(); i++) {
+                        if (obtCodPlanta == (listarclassPlanta.get(i).getCodPlanta())) {
+                            codDuplicado = true;
+                        }
                     }
                 }
                 if(!codDuplicado) {
+                    siGuarda=BDM.insertarDatosP(obtCodPlanta,obtNomPlanta,obtnNomCientP,byteArray,obtDesc);
                     if (siGuarda == true) {
                         Toast.makeText(this, "Datos ingresados correctamente", Toast.LENGTH_LONG).show();
                     } else {
@@ -150,9 +153,11 @@ final static int cons=0;
             codP = Integer.parseInt(edCodPlanta.getText().toString());
             boolean validate = false;
             try {
-                for (int i = 0; i < listarclassPlanta.size(); i++){
-                    if(codP == (listarclassPlanta.get(i).getCodPlanta())){
-                        validate = true;
+                if(listarclassPlanta != null){
+                    for (int i = 0; i < listarclassPlanta.size(); i++){
+                        if(codP == (listarclassPlanta.get(i).getCodPlanta())){
+                            validate = true;
+                        }
                     }
                 }
                 if(!validate) {

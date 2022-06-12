@@ -14,7 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
-
+/* Valentina Molina Jara
+    19.987.243-5 */
 public class ArrayAdapterRecoleccion extends ArrayAdapter<classRecoleccion> {
 View v;
 
